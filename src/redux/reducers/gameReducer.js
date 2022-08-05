@@ -11,7 +11,7 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   switch (type) {
   case actionTypes.FETCH_QUESTIONS:
     return { ...state,
-      questions: payload.results };
+      questions: payload };
     /*   case actionTypes.GET_ANSWER:
 
 */
