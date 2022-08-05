@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { quizApi } from '../redux/actions';
+import { loginAction, quizApi } from '../redux/actions';
 
-class Login extends Component {
+class Login extends React.Component {
   constructor() {
     super();
 
@@ -16,7 +16,6 @@ class Login extends Component {
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-
     this.setState({
       [name]: value,
     });
@@ -35,10 +34,12 @@ class Login extends Component {
     .then((data) => data.token));
 
   loginOnClick = async () => {
-    const { getQuiz, history } = this.props;
+    const { getQuiz, history, loginFunction } = this.props;
+    const { name, email } = this.state;
     const token = await this.getToken();
     localStorage.setItem('token', token);
     getQuiz(token);
+    loginFunction({ name, email });
     history.push('/game');
   }
 
@@ -88,11 +89,13 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getQuiz: (token) => dispatch(quizApi(token)),
+  loginFunction: (user) => dispatch(loginAction(user)),
 });
 
 Login.propTypes = {
   getQuiz: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.array).isRequired,
+  loginFunction: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);

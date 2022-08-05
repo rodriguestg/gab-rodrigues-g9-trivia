@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   index: 0,
 };
 
-const gameReducer = (state = INITIAL_STATE, action) => {
+const game = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
   switch (type) {
   case actionTypes.FETCH_QUESTIONS:
@@ -20,4 +20,4 @@ const gameReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default gameReducer;
+export default game;

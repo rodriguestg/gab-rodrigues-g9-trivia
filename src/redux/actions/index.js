@@ -1,13 +1,17 @@
-import { FETCH_QUESTIONS, GET_ANSWER } from './actionTypes';
+import * as actionsTypes from './actionTypes';
 
 export const ADD_QUESTIONS = (param) => ({
-  type: FETCH_QUESTIONS,
+  type: actionsTypes.FETCH_QUESTIONS,
   payload: param,
 });
 
 export const saveAnswer = (answer) => ({
-  type: GET_ANSWER,
+  type: actionsTypes.GET_ANSWER,
   payload: answer,
+});
+
+export const loginAction = (user) => ({
+  type: actionsTypes.LOGIN, user,
 });
 
 export const quizApi = (token) => async (dispatch) => {
