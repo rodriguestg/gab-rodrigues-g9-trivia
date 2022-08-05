@@ -1,8 +1,10 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import logo from './trivia.png';
 import './App.css';
 import Login from './components/Login';
+import Game from './components/Game';
+import Settings from './pages/Settings';
 
 class App extends React.Component {
   render() {
@@ -10,11 +12,12 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
-          <p>SUA VEZ</p>
+          <Switch>
+            <Route exact path="/" component={ Login } />
+            <Route path="/game" component={ Game } />
+            <Route path="/settings" component={ Settings } />
+          </Switch>
         </header>
-        <Switch>
-          <Route path="/" component={ Login } />
-        </Switch>
       </div>
     );
   }
