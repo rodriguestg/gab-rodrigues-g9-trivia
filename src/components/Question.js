@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../question.css';
 
 export default class Question extends Component {
   constructor() {
@@ -8,6 +9,8 @@ export default class Question extends Component {
     this.state = {
       sortedQuestions: [],
       indexCorrectAnswer: 0,
+      correct: 'vazio',
+      failed: 'vazio',
     };
   }
 
@@ -25,15 +28,30 @@ export default class Question extends Component {
     });
   }
 
+  answerSelected = () => {
+    const { sortedQuestions, indexCorrectAnswer, correct, failed } = this.state;
+    sortedQuestions.forEach((_answer, index) => (
+      index === indexCorrectAnswer
+        ? this.setState({
+          correct: 'green',
+        })
+        : this.setState({
+          failed: 'red',
+        })
+    ));
+  }
+
   render() {
     const { question } = this.props;
     console.log(question);
-    const { sortedQuestions, indexCorrectAnswer } = this.state;
+    const { sortedQuestions, indexCorrectAnswer, correct, failed } = this.state;
     const buttonCorrectAnswer = (answer, index) => (
       <button
         type="button"
         data-testid="correct-answer"
         key={ index }
+        onClick={ this.answerSelected }
+        className={ correct }
       >
         { answer }
       </button>);
@@ -42,6 +60,8 @@ export default class Question extends Component {
         type="button"
         data-testid={ `wrong-answer-${index}` }
         key={ index }
+        onClick={ this.answerSelected }
+        className={ failed }
       >
         { answer }
       </button>

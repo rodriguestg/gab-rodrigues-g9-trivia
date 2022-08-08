@@ -11,6 +11,7 @@ class Game extends React.Component {
 
     this.state = {
       currentQuestion: 0,
+      timer: 30,
     };
   }
 
@@ -23,6 +24,19 @@ class Game extends React.Component {
       history.push('/');
     }
   }
+
+/*   timer = () => {
+    const timeout = 5000;
+    const oneSecond = 1000;
+    const interval = setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }, oneSecond);
+    setTimeout(() => {
+      clearInterval(interval);
+    }, timeout);
+  } */
 
   render() {
     const { questions } = this.props;
