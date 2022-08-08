@@ -26,3 +26,15 @@ export const quizApi = (token) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const sumScore = (payload) => {
+  const ten = 10;
+  if (payload.difficulty === 'easy') payload.difficulty = 1;
+  if (payload.difficulty === 'medium') payload.difficulty = 2;
+  if (payload.difficulty === 'hard') payload.difficulty = 3;
+
+  const score = (ten + payload.timer * payload.difficulty);
+  return ({ type: actionsTypes.SUM_SCORE,
+    score,
+  });
+};

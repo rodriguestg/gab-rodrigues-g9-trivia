@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../question.css';
+import { connect } from 'react-redux';
+import { sumScore } from '../redux/actions';
 
-export default class Question extends Component {
+class Question extends Component {
   constructor() {
     super();
 
@@ -30,8 +32,9 @@ export default class Question extends Component {
     this.timer();
   }
 
-  answerSelected = () => {
-    const { sortedQuestions, indexCorrectAnswer } = this.state;
+  answerSelected = ({ target }) => {
+    const { sortedQuestions, indexCorrectAnswer, timer } = this.state;
+    const { sumScoreDispatch, question } = this.props;
     sortedQuestions.forEach((_answer, index) => (
       index === indexCorrectAnswer
         ? this.setState({
@@ -41,6 +44,11 @@ export default class Question extends Component {
           failed: 'red',
         })
     ));
+    if (target.id === 'correct') {
+      sumScoreDispatch({
+        timer, difficulty: question.difficulty,
+      });
+    }
   }
 
   timer = () => {
@@ -65,6 +73,7 @@ export default class Question extends Component {
       <button
         type="button"
         data-testid="correct-answer"
+        id="correct"
         key={ index }
         onClick={ this.answerSelected }
         className={ correct }
@@ -76,6 +85,7 @@ export default class Question extends Component {
       <button
         type="button"
         data-testid={ `wrong-answer-${index}` }
+        id="wrong"
         key={ index }
         onClick={ this.answerSelected }
         className={ failed }
@@ -103,6 +113,13 @@ export default class Question extends Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  sumScoreDispatch: (aboutAnswer) => dispatch(sumScore(aboutAnswer)),
+});
+
 Question.propTypes = {
   question: PropTypes.objectOf(PropTypes.any).isRequired,
+  sumScoreDispatch: PropTypes.func.isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(Question);
