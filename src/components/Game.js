@@ -11,45 +11,32 @@ class Game extends React.Component {
 
     this.state = {
       currentQuestion: 0,
-      timer: 30,
     };
   }
 
   componentDidUpdate() {
     const { questions, history } = this.props;
     const zero = 0;
-    console.log('did update', questions);
     if (questions.response_code !== zero) {
       localStorage.removeItem('token');
       history.push('/');
     }
   }
 
-/*   timer = () => {
-    const timeout = 5000;
-    const oneSecond = 1000;
-    const interval = setInterval(() => {
-      this.setState((prevState) => ({
-        timer: prevState.timer - 1,
-      }));
-    }, oneSecond);
-    setTimeout(() => {
-      clearInterval(interval);
-    }, timeout);
-  } */
-
   render() {
     const { questions } = this.props;
     const { currentQuestion } = this.state;
     const zero = 0;
-    console.log('questions', questions);
     return (
       <div className="App">
         <Header />
         {
           questions.length === 0 || questions.response_code !== zero
             ? <p>Carregando</p>
-            : <Question question={ questions.results[currentQuestion] } />
+            : (
+              <Question
+                question={ questions.results[currentQuestion] }
+              />)
         }
       </div>
     );

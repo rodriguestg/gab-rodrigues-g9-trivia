@@ -11,6 +11,7 @@ export default class Question extends Component {
       indexCorrectAnswer: 0,
       correct: 'vazio',
       failed: 'vazio',
+      timer: 30,
     };
   }
 
@@ -26,10 +27,11 @@ export default class Question extends Component {
       sortedQuestions: shuffled,
       indexCorrectAnswer: shuffled.indexOf(question.correct_answer),
     });
+    this.timer();
   }
 
   answerSelected = () => {
-    const { sortedQuestions, indexCorrectAnswer, correct, failed } = this.state;
+    const { sortedQuestions, indexCorrectAnswer } = this.state;
     sortedQuestions.forEach((_answer, index) => (
       index === indexCorrectAnswer
         ? this.setState({
@@ -41,10 +43,24 @@ export default class Question extends Component {
     ));
   }
 
+  timer = () => {
+    const timeout = 30000;
+    const oneSecond = 1000;
+    const interval = setInterval(() => {
+      this.setState((prevState) => ({
+        timer: prevState.timer - 1,
+      }));
+    }, oneSecond);
+
+    setTimeout(() => {
+      clearInterval(interval);
+    }, timeout);
+  }
+
   render() {
     const { question } = this.props;
-    console.log(question);
-    const { sortedQuestions, indexCorrectAnswer, correct, failed } = this.state;
+    const { sortedQuestions, indexCorrectAnswer,
+      correct, failed, timer } = this.state;
     const buttonCorrectAnswer = (answer, index) => (
       <button
         type="button"
@@ -52,6 +68,7 @@ export default class Question extends Component {
         key={ index }
         onClick={ this.answerSelected }
         className={ correct }
+        disabled={ timer === 0 }
       >
         { answer }
       </button>);
@@ -62,12 +79,14 @@ export default class Question extends Component {
         key={ index }
         onClick={ this.answerSelected }
         className={ failed }
+        disabled={ timer === 0 }
       >
         { answer }
       </button>
     );
     return (
       <div>
+        <p>{ timer }</p>
         <h1 data-testid="question-category">{ question.category }</h1>
         <h2 data-testid="question-text">{ question.question }</h2>
         <div data-testid="answer-options">
