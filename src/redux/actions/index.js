@@ -16,11 +16,12 @@ export const loginAction = (user) => ({
 
 export const quizApi = (token) => async (dispatch) => {
   try {
+    console.log(token);
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const json = await response.json();
     await dispatch(saveAnswer(json));
 
-    return dispatch(ADD_QUESTIONS(json.results));
+    return dispatch(ADD_QUESTIONS(json));
   } catch (error) {
     console.log(error);
   }

@@ -38,6 +38,7 @@ class Login extends React.Component {
     const { name, email } = this.state;
     const token = await this.getToken();
     localStorage.setItem('token', token);
+    console.log(token);
     getQuiz(token);
     loginFunction({ name, email });
     history.push('/game');
@@ -94,7 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   getQuiz: PropTypes.func.isRequired,
-  history: PropTypes.objectOf(PropTypes.array).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
   loginFunction: PropTypes.func.isRequired,
 };
 
