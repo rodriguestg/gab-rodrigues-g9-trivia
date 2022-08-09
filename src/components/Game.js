@@ -11,6 +11,7 @@ class Game extends React.Component {
 
     this.state = {
       currentQuestion: 0,
+      answered: false,
     };
   }
 
@@ -23,9 +24,24 @@ class Game extends React.Component {
     }
   }
 
+  isAnswered = () => {
+    this.setState({ answered: true });
+  }
+
+  nextQuestionOnClick = () => {
+    const { history } = this.props;
+    const { currentQuestion } = this.state;
+    const lastIndexCurrentQuestion = 4;
+    this.setState((prevState) => ({
+      currentQuestion: prevState.currentQuestion + 1,
+      answered: false,
+    }));
+    if (currentQuestion === lastIndexCurrentQuestion) history.push('/feedback');
+  }
+
   render() {
     const { questions } = this.props;
-    const { currentQuestion } = this.state;
+    const { currentQuestion, answered } = this.state;
     const zero = 0;
     return (
       <div className="App">
@@ -36,6 +52,9 @@ class Game extends React.Component {
             : (
               <Question
                 question={ questions.results[currentQuestion] }
+                nextQuestionOnClick={ this.nextQuestionOnClick }
+                isAnswered={ this.isAnswered }
+                answered={ answered }
               />)
         }
       </div>

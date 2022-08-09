@@ -14,10 +14,17 @@ class Question extends Component {
       correct: 'vazio',
       failed: 'vazio',
       timer: 30,
+      intervalState: 0,
+      timeOutState: 0,
     };
   }
 
   componentDidMount() {
+    this.shuffleAnswers();
+  }
+
+  shuffleAnswers = (event) => {
+    console.log(event);
     const { question } = this.props;
     const answers = [...question.incorrect_answers, question.correct_answer];
     const shuffled = answers
@@ -34,7 +41,7 @@ class Question extends Component {
 
   answerSelected = ({ target }) => {
     const { sortedQuestions, indexCorrectAnswer, timer } = this.state;
-    const { sumScoreDispatch, question } = this.props;
+    const { sumScoreDispatch, question, isAnswered } = this.props;
     sortedQuestions.forEach((_answer, index) => (
       index === indexCorrectAnswer
         ? this.setState({
@@ -49,10 +56,20 @@ class Question extends Component {
         timer, difficulty: question.difficulty,
       });
     }
+    isAnswered();
+  }
+
+  clearTimer = () => {
+    const { timeOutState, intervalState } = this.state;
+    console.log(timeOutState, intervalState);
+    this.setState({ timer: 30, correct: 'vazio', failed: 'vazio' });
+    clearInterval(intervalState);
+    clearTimeout(timeOutState);
   }
 
   timer = () => {
-    const timeout = 30000;
+    this.clearTimer();
+    const timeOutNumber = 30000;
     const oneSecond = 1000;
     const interval = setInterval(() => {
       this.setState((prevState) => ({
@@ -60,13 +77,18 @@ class Question extends Component {
       }));
     }, oneSecond);
 
-    setTimeout(() => {
+    const timeOut = setTimeout(() => {
       clearInterval(interval);
-    }, timeout);
+    }, timeOutNumber);
+
+    this.setState({
+      intervalState: interval,
+      timeOutState: timeOut,
+    });
   }
 
   render() {
-    const { question } = this.props;
+    const { question, nextQuestionOnClick, answered } = this.props;
     const { sortedQuestions, indexCorrectAnswer,
       correct, failed, timer } = this.state;
     const buttonCorrectAnswer = (answer, index) => (
@@ -108,6 +130,20 @@ class Question extends Component {
             ))
           }
         </div>
+        { answered
+            && (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ (event) => {
+                  nextQuestionOnClick();
+                  this.shuffleAnswers(event);
+                } }
+              >
+                Next
+              </button>
+            )}
+
       </div>
     );
   }
@@ -120,6 +156,9 @@ const mapDispatchToProps = (dispatch) => ({
 Question.propTypes = {
   question: PropTypes.objectOf(PropTypes.any).isRequired,
   sumScoreDispatch: PropTypes.func.isRequired,
+  nextQuestionOnClick: PropTypes.func.isRequired,
+  isAnswered: PropTypes.func.isRequired,
+  answered: PropTypes.bool.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Question);
