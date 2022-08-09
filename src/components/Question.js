@@ -35,6 +35,7 @@ class Question extends Component {
       sortedQuestions: shuffled,
       indexCorrectAnswer: shuffled.indexOf(question.correct_answer),
     });
+    console.log(shuffled.indexOf(question.correct_answer));
     this.timer();
   }
 
@@ -133,9 +134,9 @@ class Question extends Component {
               <button
                 type="button"
                 data-testid="btn-next"
-                onClick={ (event) => {
-                  nextQuestionOnClick();
-                  this.shuffleAnswers(event);
+                onClick={ async () => {
+                  await nextQuestionOnClick();
+                  this.shuffleAnswers();
                 } }
               >
                 Next

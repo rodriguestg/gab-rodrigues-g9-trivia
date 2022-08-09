@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import Question from './Question';
@@ -28,6 +27,22 @@ class Game extends React.Component {
     this.setState({ answered: true });
   }
 
+  saveRank = () => {
+    const { player } = this.props;
+    const ranking = localStorage.getItem('ranking');
+    const personRank = {
+      name: player.name, score: player.score, picture: player.gravatarEmail };
+    if (ranking === null) {
+      console.log('undefined');
+      localStorage.setItem('ranking', JSON.stringify([personRank]));
+    } else {
+      const rankingParsed = JSON.parse(ranking);
+      console.log(ranking);
+      rankingParsed.push(personRank);
+      localStorage.setItem('ranking', JSON.stringify(rankingParsed));
+    }
+  }
+
   nextQuestionOnClick = () => {
     const { history } = this.props;
     const { currentQuestion } = this.state;
@@ -36,7 +51,10 @@ class Game extends React.Component {
       currentQuestion: prevState.currentQuestion + 1,
       answered: false,
     }));
-    if (currentQuestion === lastIndexCurrentQuestion) history.push('/feedback');
+    if (currentQuestion === lastIndexCurrentQuestion) {
+      this.saveRank();
+      history.push('/feedback');
+    }
   }
 
   render() {
@@ -64,11 +82,13 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
+  player: state.player,
 });
 
 Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.any).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  player: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default connect(mapStateToProps, null)(Game);
