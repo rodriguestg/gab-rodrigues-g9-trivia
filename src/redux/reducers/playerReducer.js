@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '',
-  assertions: '',
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
 };
@@ -19,6 +19,7 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: state.score + action.score,
+      assertions: state.assertions + 1,
     };
   default:
     return state;

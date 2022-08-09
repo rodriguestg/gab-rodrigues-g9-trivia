@@ -23,8 +23,7 @@ class Question extends Component {
     this.shuffleAnswers();
   }
 
-  shuffleAnswers = (event) => {
-    console.log(event);
+  shuffleAnswers = () => {
     const { question } = this.props;
     const answers = [...question.incorrect_answers, question.correct_answer];
     const shuffled = answers
@@ -61,7 +60,6 @@ class Question extends Component {
 
   clearTimer = () => {
     const { timeOutState, intervalState } = this.state;
-    console.log(timeOutState, intervalState);
     this.setState({ timer: 30, correct: 'vazio', failed: 'vazio' });
     clearInterval(intervalState);
     clearTimeout(timeOutState);
@@ -143,7 +141,6 @@ class Question extends Component {
                 Next
               </button>
             )}
-
       </div>
     );
   }
