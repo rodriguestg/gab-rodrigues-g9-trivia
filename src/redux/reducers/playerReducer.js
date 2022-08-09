@@ -23,7 +23,6 @@ const player = (state = INITIAL_STATE, action) => {
     };
   case actionTypes.LOGOUT:
     return INITIAL_STATE;
-    
   default:
     return state;
   }
