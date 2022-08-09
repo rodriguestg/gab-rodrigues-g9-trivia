@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { logout } from '../redux/actions';
 
 class Feedback extends Component {
   feedbackMessage = () => {
@@ -13,6 +14,12 @@ class Feedback extends Component {
     return messages[1];
   }
 
+  reset = () => {
+    const { history, logoutFunction } = this.props;
+    logoutFunction();
+    history.push('/');
+  };
+
   render() {
     const { placar, assertions } = this.props;
     return (
@@ -22,9 +29,13 @@ class Feedback extends Component {
           <p>{ this.feedbackMessage() }</p>
           <p data-testid="feedback-total-score">{placar}</p>
           <p data-testid="feedback-total-question">{assertions}</p>
-          <Link to="/">
-            <button data-testid="btn-play-again" type="button">Play Again</button>
-          </Link>
+          <button
+            data-testid="btn-play-again"
+            type="button"
+            onClick={ this.reset }
+          >
+            Play Again
+          </button>
           <Link to="/ranking" data-testid="btn-ranking">Ranking</Link>
         </div>
       </div>
@@ -37,9 +48,15 @@ const mapStateToProps = (state) => ({
   placar: state.player.score,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  logoutFunction: () => dispatch(logout()),
+});
+
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   placar: PropTypes.number.isRequired,
+  logoutFunction: PropTypes.func.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default connect(mapStateToProps, null)(Feedback);
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

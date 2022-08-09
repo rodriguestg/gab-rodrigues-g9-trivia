@@ -38,3 +38,5 @@ export const sumScore = (payload) => {
     score,
   });
 };
+
+export const logout = () => ({ type: actionsTypes.LOGOUT });

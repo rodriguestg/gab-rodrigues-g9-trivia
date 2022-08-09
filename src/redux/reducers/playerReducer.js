@@ -21,6 +21,8 @@ const player = (state = INITIAL_STATE, action) => {
       score: state.score + action.score,
       assertions: state.assertions + 1,
     };
+  case actionTypes.LOGOUT:
+    return INITIAL_STATE;
   default:
     return state;
   }
