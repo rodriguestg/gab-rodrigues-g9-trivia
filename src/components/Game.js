@@ -11,31 +11,51 @@ class Game extends React.Component {
 
     this.state = {
       currentQuestion: 0,
+      answered: false,
     };
   }
 
   componentDidUpdate() {
     const { questions, history } = this.props;
     const zero = 0;
-    console.log('did update', questions);
     if (questions.response_code !== zero) {
       localStorage.removeItem('token');
       history.push('/');
     }
   }
 
+  isAnswered = () => {
+    this.setState({ answered: true });
+  }
+
+  nextQuestionOnClick = () => {
+    const { history } = this.props;
+    const { currentQuestion } = this.state;
+    const lastIndexCurrentQuestion = 4;
+    this.setState((prevState) => ({
+      currentQuestion: prevState.currentQuestion + 1,
+      answered: false,
+    }));
+    if (currentQuestion === lastIndexCurrentQuestion) history.push('/feedback');
+  }
+
   render() {
     const { questions } = this.props;
-    const { currentQuestion } = this.state;
+    const { currentQuestion, answered } = this.state;
     const zero = 0;
-    console.log('questions', questions);
     return (
       <div className="App">
         <Header />
         {
           questions.length === 0 || questions.response_code !== zero
             ? <p>Carregando</p>
-            : <Question question={ questions.results[currentQuestion] } />
+            : (
+              <Question
+                question={ questions.results[currentQuestion] }
+                nextQuestionOnClick={ this.nextQuestionOnClick }
+                isAnswered={ this.isAnswered }
+                answered={ answered }
+              />)
         }
       </div>
     );
