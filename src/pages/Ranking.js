@@ -18,19 +18,17 @@ class Ranking extends Component {
     return (
       <div data-testid="ranking-title">
         {
-          ranking.map((rank, index) => {
-            return (
-              <div key={ index }>
-                <img
-                  src={ `https://www.gravatar.com/avatar/${md5(rank.picture).toString()}` }
-                  alt="Gravatar"
-                  data-testid="header-profile-picture"
-                />
-                <p data-testid={ `player-name-${index}` }>{ rank.name }</p>
-                <p data-testid={ `player-score-${index}` }>{ rank.score }</p>
-              </div>
-            );
-          })
+          ranking.map((rank, index) => (
+            <div key={ index }>
+              <img
+                src={ `https://www.gravatar.com/avatar/${md5(rank.picture).toString()}` }
+                alt="Gravatar"
+                data-testid="header-profile-picture"
+              />
+              <p data-testid={ `player-name-${index}` }>{ rank.name }</p>
+              <p data-testid={ `player-score-${index}` }>{ rank.score }</p>
+            </div>
+          ))
         }
         <Link to="/">
           <button
