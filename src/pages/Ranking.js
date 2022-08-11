@@ -19,7 +19,6 @@ class Ranking extends Component {
       <div data-testid="ranking-title">
         {
           ranking.map((rank, index) => {
-            console.log(rank);
             return (
               <div key={ index }>
                 <img
