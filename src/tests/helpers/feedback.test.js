@@ -4,6 +4,7 @@ import App from '../../App';
 import renderWithRouterAndRedux from './renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
 
+
 describe('Testa a página Feedback', () => {
   const email = 'email@email.com';
   const name = 'email';
@@ -31,6 +32,5 @@ describe('Testa a página Feedback', () => {
     userEvent.type(inputEmail, email);
     userEvent.type(inputName, name);
     fireEvent.click(buttonPlay);
-    console.log(screen.logTestingPlaygroundURL());
   })
 })

@@ -33,11 +33,9 @@ class Game extends React.Component {
     const personRank = {
       name: player.name, score: player.score, picture: player.gravatarEmail };
     if (ranking === null) {
-      console.log('undefined');
       localStorage.setItem('ranking', JSON.stringify([personRank]));
     } else {
       const rankingParsed = JSON.parse(ranking);
-      console.log(ranking);
       rankingParsed.push(personRank);
       localStorage.setItem('ranking', JSON.stringify(rankingParsed));
     }

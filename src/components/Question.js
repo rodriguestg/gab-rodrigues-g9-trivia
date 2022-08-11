@@ -35,7 +35,6 @@ class Question extends Component {
       sortedQuestions: shuffled,
       indexCorrectAnswer: shuffled.indexOf(question.correct_answer),
     });
-    console.log(shuffled.indexOf(question.correct_answer));
     this.timer();
   }
 
