@@ -8,7 +8,7 @@ import * as actions from '../../redux/actions';
 
 describe('Testa as página Ranking', () => {
   jest.useFakeTimers();
-  test('', () => {
+  test('se o jogo está funcionando', () => {
     renderWithRouterAndRedux(<App />, initialStateMock, '/game');
 
     localStorage.setItem('ranking', JSON.stringify([{name:"Outra pessoa",score:0,picture:"email.com"},{name:"Lana",score:40,picture:"danubio.rafaeel@gmail.com"}]))
@@ -70,4 +70,15 @@ describe('Testa as página Ranking', () => {
     userEvent.click(buttonConfiguration);
   })
 
+  test('se o botão das respostas desabilita após 30 segundos', () => {
+    renderWithRouterAndRedux(<App />, initialStateMock, '/game');
+
+    localStorage.setItem('ranking', JSON.stringify([{name:"Outra pessoa",score:0,picture:"email.com"},{name:"Lana",score:40,picture:"danubio.rafaeel@gmail.com"}]))
+    jest.advanceTimersByTime(30000) 
+  })
+
+  test('se o usuário é deslogado quando o token é inválido', () => {
+    renderWithRouterAndRedux(<App />, initialStateTokenMock, '/game');
+    
+  })
 })
