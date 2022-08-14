@@ -14,10 +14,12 @@ class Game extends React.Component {
     };
   }
 
-  componentDidUpdate() {
+  async componentDidMount() {
     const { questions, history } = this.props;
-    const zero = 0;
-    if (questions.response_code !== zero) {
+    const three = 3;
+
+    console.log(`Question Response didMount${questions.response_code}`);
+    if (questions.response_code === three) {
       localStorage.removeItem('token');
       history.push('/');
     }
