@@ -32,7 +32,6 @@ describe('Testa as página Ranking', () => {
     userEvent.click(correctAnswer3);
 
     jest.advanceTimersByTime(5000) 
-    console.log(screen.logTestingPlaygroundURL());
 
     const buttonNext3 = screen.getByRole('button', { name: /next/i });
     userEvent.click(buttonNext3);
@@ -77,8 +76,49 @@ describe('Testa as página Ranking', () => {
     jest.advanceTimersByTime(30000) 
   })
 
-  test('se o usuário é deslogado quando o token é inválido', () => {
+  test('se o usuário é deslogado quando o token é inválido', async () => {
     renderWithRouterAndRedux(<App />, initialStateTokenMock, '/game');
-    
+
+    jest.advanceTimersByTime(3000);
+  })
+
+  test('se o usuário é adicionado ao Rank ao final do jogo', () => {
+    renderWithRouterAndRedux(<App />, initialStateMock, '/game');
+
+    localStorage.clear();
+
+    const correctAnswer = screen.queryByTestId('correct-answer');
+    userEvent.click(correctAnswer);
+    const buttonNext = screen.getByRole('button', { name: /next/i });
+    userEvent.click(buttonNext);
+
+    const correctAnswer1 = screen.queryByTestId('correct-answer');
+    userEvent.click(correctAnswer1);
+    const buttonNext1 = screen.getByRole('button', { name: /next/i });
+    userEvent.click(buttonNext1);
+
+    const correctAnswer2 = screen.queryByTestId('correct-answer');
+    userEvent.click(correctAnswer2);
+    const buttonNext2 = screen.getByRole('button', { name: /next/i });
+    userEvent.click(buttonNext2);
+
+    const correctAnswer3 = screen.queryByTestId('correct-answer');
+    userEvent.click(correctAnswer3);
+
+    const buttonNext3 = screen.getByRole('button', { name: /next/i });
+    userEvent.click(buttonNext3);
+
+    const correctAnswer4 = screen.queryByTestId('correct-answer');
+    userEvent.click(correctAnswer4);
+    const buttonNext4 = screen.getByRole('button', { name: /next/i });
+    userEvent.click(buttonNext4);
+
+    const buttonRanking = screen.getByRole('link', { name: /ranking/i });
+    userEvent.click(buttonRanking);
+
+    const buttonLogout = screen.getByRole('button', { name: /login/i });
+    console.log(screen.logTestingPlaygroundURL());
+    userEvent.click(buttonLogout);
+
   })
 })

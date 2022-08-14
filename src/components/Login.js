@@ -38,7 +38,7 @@ class Login extends React.Component {
     const { name, email } = this.state;
     const token = await this.getToken();
     localStorage.setItem('token', token);
-    getQuiz(token);
+    await getQuiz(token);
     loginFunction({ name, email });
     history.push('/game');
   }
